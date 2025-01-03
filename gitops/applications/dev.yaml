@@ -9,13 +9,15 @@ spec:
   destination:
     namespace: stack-dev-dshmelev
     server: https://kubernetes.default.svc
-  source:
-    chart: nginx
+  sources:
+  - chart: nginx
     repoURL: registry-1.docker.io/bitnamicharts  # note: the oci:// syntax is not included.
     targetRevision: 15.9.0
-    path: gitops/applications/envs/dev
     helm:
       valueFiles:
-        - settings.yaml
+        - $values/gitops/applications/envs/dev/settings.yaml
+  - ref: values
+    repoURL: https://github.com/dshmelev/argocd-settings.git
+    targetRevision: main
   syncPolicy:
     automated: {}
