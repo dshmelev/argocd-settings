@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: stack-dev-dshmelev
+  namespace: kube-gitops
+spec:
+  project: dshmelev
+  destination:
+    namespace: stack-dev-dshmelev
+    server: https://kubernetes.default.svc
+  source:
+    chart: nginx
+    repoURL: registry-1.docker.io/bitnamicharts  # note: the oci:// syntax is not included.
+    targetRevision: 15.9.0
+    path: gitops/applications/envs/dev
+    helm:
+      valueFiles:
+        - settings.yaml
+  syncPolicy:
+    automated: {}
